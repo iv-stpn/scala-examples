@@ -1,6 +1,2 @@
-[0m[[0m[31merror[0m] [0m[0m/home/iv-stpn/Downloads/TP_MR/src/main/scala/TP_MR.scala:116:179: type mismatch;[0m
-[0m[[0m[31merror[0m] [0m[0m found   : Option[Double][0m
-[0m[[0m[31merror[0m] [0m[0m required: Double[0m
-[0m[[0m[31merror[0m] [0m[0m  def average(values: Iterator[Double]): Option[Double] = if (values.length > 0) None else Some(Some(values.foldLeft((0.0, 0)) { (acc, elem) => (acc._1+elem, acc._2+1) }).collect( elem => elem._1 / elem._2 ))[0m
-[0m[[0m[31merror[0m] [0m[0m                                                                                                                                                                                  ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning (since 2.13.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

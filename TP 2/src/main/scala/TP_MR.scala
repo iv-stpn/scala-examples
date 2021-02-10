@@ -169,7 +169,7 @@ object TP_MR {
     val rows: Iterable[Array[String]] =
       data.map { line =>
         //TODO cleaning line and separate fields by the comma character
-        val row: Array[String] = ???
+        val row: Array[String] = line.trim.split(",")
 
         // cleansing: if fields are missing, we pad row with empty strings
         row.padTo(7, "")
@@ -178,11 +178,9 @@ object TP_MR {
     // we want an Iterable consisting of the pair Departement and Rating
     val deptRatings: Iterable[(String, Double)] =
       //TODO we remove lines with no departement
-      ???
-        //then we map the creation of the tuple, just uncomment
-        /*.map(fields =>
+      rows.filterNot(x => x(6).isEmpty).map(fields =>
           (fields(6), Try { fields(1).toDouble }.getOrElse(0.0))
-        )*/
+        )
 
     deptRatings
       .groupBy { case (departement, rating) => departement }
@@ -235,23 +233,23 @@ object TP_MR {
 
   // TODO Monoid (Int, +, 0)
   implicit val intMonoid: Monoid[Int] = new Monoid[Int] {
-    override def empty: Int = ???
-    override def combine(a: Int, b: Int): Int = ???
+    override def empty: Int = 0
+    override def combine(a: Int, b: Int): Int = a + b
   }
 
   // TODO Monoid (Double, +, 0.0)
   implicit val doubleMonoid: Monoid[Double] = new Monoid[Double] {
-    override def empty: Double = ???
-    override def combine(a: Double, b: Double): Double = ???
+    override def empty: Double = 0.0
+    override def combine(a: Double, b: Double): Double = a + b
   }
 
   // TODO turn any tuple (A, B) into Monoid, providing A and B both are Monoid
   implicit def tupleMonoid[A: Monoid, B: Monoid]: Monoid[(A, B)] =
     new Monoid[(A, B)] {
-      override def empty: (A, B) = ???
+      override def empty: (A, B) = (Monoid[A].empty, Monoid[B].empty)
 
-      override def combine(left: (A, B), right: (A, B)): (A, B) =
-        ???
+      override def combine(left: (A, B), right: (A, B)): (A, B) = (Monoid[A].combine(left._1, right._1), Monoid[B].combine(left._2, right._2))
+
     }
 
   /**
@@ -278,17 +276,15 @@ object TP_MR {
      * And now let's do our MapReduce
      */
 
-    // TODO phase 1 (Map): get ratings only and associate the value 1 to the rating (create a pair (rating,1))
-    val partitionedRatingWithOne: MapView[String, Iterable[(Double, Int)]] =
-      ???
+    // phase 1 (Map): get ratings only and associate the value 1 to then
+    val partitionedRatingWithOne = partitions.mapValues(ratings => ratings.map(rating => (rating, 1)))
 
-    // TODO phase 2 (Combine): locally sum ratings and 1s for each partition
-    val partitionedSumRatingsAndCount: MapView[String, (Double, Int)] =
-      ???
+    // phase 2 (Combine): locally sum ratings and 1s for each partition
+    val partitionedSumRatingsAndCount = partitionedRatingWithOne.mapValues(data => data.combineAll)
 
-    // TODO phase 3 (Reduce): combine for all partitions the sum of ratings and counts
-    val (rating, count) : (Double,Int) =
-      ???
+    // phase 3 (Reduce): combine for all partitions the sum of ratings and counts
+    val (rating, count) = partitionedSumRatingsAndCount.values.combineAll
+
 
     rating / count
   }

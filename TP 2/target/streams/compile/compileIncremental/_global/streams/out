@@ -20,13 +20,13 @@
 [0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: TP_MR.Employee, TP_MR.iterableWithCombineAll, TP_MR.User, TP_MR.Monoid, TP_MR[0m
 [0m[[0m[0mdebug[0m] [0m[0mRecompiling all sources: number of invalidated sources > 50.0% of all sources[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/iv-stpn/Downloads/TP_MR/target/scala-2.13/classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/iv-stpn/Downloads/scala-examples/TP 2/target/scala-2.13/classes ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.4.4:compile for Scala 2.13.1[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 72a0cd31 for Scala compiler version 2.13.1[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 8c2de2f for Scala compiler version 2.13.1[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/classes:/home/iv-stpn/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
-[0m[[0m[0mdebug[0m] [0m[0m	/home/iv-stpn/Downloads/TP_MR/target/scala-2.13/classes[0m
-[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 2.492503572 s[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/home/iv-stpn/Downloads/scala-examples/TP 2/target/scala-2.13/classes[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 2.635838025 s[0m
 [0m[[0m[0mdebug[0m] [0m[0mdone compiling[0m
