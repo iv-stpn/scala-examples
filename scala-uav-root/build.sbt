@@ -1,4 +1,3 @@
-
 name := "drone-project"
 
 version := "0.1"
