@@ -10,9 +10,22 @@ import java.util.concurrent.TimeUnit
 import scala.util.Random
 import java.util.{Properties, Timer, TimerTask, concurrent}
 
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+
 object ProducerDrone extends App {
+  def random_date(from: LocalDateTime, to: LocalDateTime): String = {
+    val diff = ChronoUnit.DAYS.between(from, to)
+    val random = new scala.util.Random
+    from.plus(random.nextInt(diff.toInt), ChronoUnit.DAYS).plus(random.nextInt(86000), ChronoUnit.SECONDS).toString
+  }
+
   def test(): Unit = {
     val topic = "testtopic"
+    val topic_file = "testtopicfile"
+    val from = LocalDateTime.of(2067, 10, 1, 0, 0, 1)
+    val to = LocalDateTime.of(2075, 12, 4, 0, 0, 1)
 
     //val iden: String = identity.firstname + "-" + identity.lastname + "-(" + drone.lat_location + "," + drone.long_location + ")"
     val rand = new scala.util.Random
@@ -29,8 +42,8 @@ object ProducerDrone extends App {
     val task = new TimerTask {
 
       override def run(): Unit = {
-        val random_name = List("Xinrui", "Haoyuan", "Yue", "Sujin", "Chaoshi", "Lihe", "Xinyu", "Qixian", "Songyan", "Cao","Paul", "Omar", "Adrien", "Ivan", "Louis", "Julien", "Marion", "Claire", "Charles", "Julie","Alexandre", "Diane", "Capucine", "Victor", "Antoine")
-        val random_lastname = List("Boulanger", "Charpentier", "Dorffer", "Stepanian", "Allouache", "Hammoud", "Petit", "Martin", "Bernard", "Robert", "Richard","Wang", "Li", "Zhang'", "Liu", "Chen", "Yang", "Zhao", "Huang", "Wu", "Zhou", "Yuan")
+        val random_name = List("Xinrui", "Haoyuan", "Yue", "Sujin", "Khodor", "Chaoshi", "Lihe", "Xinyu", "Qixian", "Songyan", "Cao","Paul", "Omar", "Adrien", "Ivan", "Louis", "Julien", "Marion", "Claire", "Charles", "Julie","Alexandre", "Diane", "Capucine", "Victor", "Antoine")
+        val random_lastname = List("Boulanger", "Charpentier", "Dorffer", "Stepanian", "Allouache", "Hammoud", "Petit", "Broussole", "Martin", "Bernard", "Robert", "Richard","Wang", "Li", "Zhang'", "Liu", "Chen", "Yang", "Zhao", "Huang", "Wu", "Zhou", "Yuan")
         val random_adress = List("Arbres", "Poissons", "Champs", "Martyrs", "Hongrois", "Concombres", "Italiens", "Espagnols", "Français", "Marcassins")
         val random_gene = scala.util.Random
 
@@ -47,12 +60,14 @@ object ProducerDrone extends App {
 
         val listwords = (((words(random_gene.nextInt(words.length)).split(" ") ++ words(random_gene.nextInt(words.length)).split(" ")) ++ words(random_gene.nextInt(words.length)).split(" ")) ++ words(random_gene.nextInt(words.length)).split(" ")).toList
 
-        val reporttest = Drone(randomUUID().toString(), 47 + random_gene.nextFloat(), 2 + random_gene.nextFloat() , listwords,name)
-        println("Report test ", reporttest)
+        val report = Drone(randomUUID().toString(), random_date(from, to), 47 + random_gene.nextFloat(), 2 + random_gene.nextFloat() , listwords,name)
+        println("Report ", report)
         implicit val formats = DefaultFormats
-        val jsonString = write(reporttest)
+        val jsonString = write(report)
+        println("JSONSTRING")
         println(jsonString)
         producer.send(new ProducerRecord(topic, jsonString, name.peacescore))
+        producer.send(new ProducerRecord(topic_file, jsonString, name.peacescore))
       }
     }
 

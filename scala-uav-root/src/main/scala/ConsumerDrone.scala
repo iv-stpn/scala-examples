@@ -24,7 +24,6 @@ object ConsumerDrone extends App{
 
     val consumer= new KafkaConsumer[String, Int](props_con)
     consumer.subscribe(Collections.singletonList("testtopic"))
-    var boold = true
     consumer.seekToBeginning(consumer.assignment())
 
     val time = System.currentTimeMillis()
@@ -38,7 +37,6 @@ object ConsumerDrone extends App{
       })
 
 
-      boold = false
     }
     print("Time " + time)
   }
