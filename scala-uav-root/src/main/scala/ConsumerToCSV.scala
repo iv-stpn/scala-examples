@@ -42,7 +42,7 @@ object ConsumerToCSV extends App {
       println("VERIF_2")
       println(record)
       val writer = new BufferedWriter(new FileWriter("testdd.csv", true))
-      if (io.Source.fromFile("testdd.csv").getLines.size == 0) {
+      if (scala.io.Source.fromFile("testdd.csv").getLines.size == 0) {
         writer.write("id, drone_time, lat_location, long_location, words, surround")
       }
       writer.newLine()
