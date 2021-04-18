@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 [0m[[0m[0mdebug[0m] [0m[0mnot up to date. inChanged = true, force = false[0m
 [0m[[0m[0mdebug[0m] [0m[0mUpdating ProjectRef(uri("file:/C:/Users/ivani/DRONE%20PRJ/scala-examples/scala-uav-root/project/"), "scala-uav-root-build")...[0m
 [0m[[0m[0mdebug[0m] [0m[0mDone updating ProjectRef(uri("file:/C:/Users/ivani/DRONE%20PRJ/scala-examples/scala-uav-root/project/"), "scala-uav-root-build")[0m
+=======
+[0m[[0m[0mdebug[0m] [0m[0mnot up to date. inChanged = false, force = false[0m
+[0m[[0m[0mdebug[0m] [0m[0mUpdating ProjectRef(uri("file:/home/omar/Bureau/scala-examples/scala-uav-root/project/"), "scala-uav-root-build")...[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone updating ProjectRef(uri("file:/home/omar/Bureau/scala-examples/scala-uav-root/project/"), "scala-uav-root-build")[0m
+>>>>>>> 7c5108f6dff6449c57ed2eb8d96db89a2bb1219d

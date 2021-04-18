@@ -40,6 +40,9 @@ object ProducerDrone extends App {
     val timer = new Timer()
     val task = new TimerTask {
 
+      val n_tasks = 30
+      val milliseconds_per_task = 1000L
+
       override def run(): Unit = {
         val randomizer = scala.util.Random
 
@@ -85,8 +88,8 @@ object ProducerDrone extends App {
       }
     }
 
-    timer.schedule(task, 1000L, 1000L)
-    concurrent.TimeUnit.SECONDS.sleep(15)
+    timer.schedule(task, milliseconds_per_task, milliseconds_per_task)
+    concurrent.TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task)
     timer.cancel()
     timer.purge()
     print("End Time (producer): " + System.currentTimeMillis())
