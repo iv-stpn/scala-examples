@@ -21,7 +21,7 @@ object ProducerDrone extends App {
     from.plus(random.nextInt(diff.toInt), ChronoUnit.DAYS).plus(random.nextInt(86000), ChronoUnit.SECONDS).toString
   }
 
-  def run(): Unit = {
+  def run(n_tasks : Int, milliseconds_per_task : Int): Unit = {
     val topic = "testtopic"
     val topic_file = "testtopicfile"
     val from = LocalDateTime.of(2067, 10, 1, 0, 0, 1)
@@ -39,9 +39,6 @@ object ProducerDrone extends App {
     val producer = new KafkaProducer[String, Int](props)
     val timer = new Timer()
     val task = new TimerTask {
-
-      val n_tasks = 30
-      val milliseconds_per_task = 1000L
 
       override def run(): Unit = {
         val randomizer = scala.util.Random

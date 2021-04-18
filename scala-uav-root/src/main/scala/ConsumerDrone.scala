@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
 
 
 object ConsumerDrone extends App {
-  def run(): Unit = { 
+  def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = { 
 
     val topic = "testtopic"
 
@@ -30,7 +30,7 @@ object ConsumerDrone extends App {
     props_con.put("group.id", "MessagesListDrone")
 
 
-    val consumer= new KafkaConsumer[String, Int](props_con)
+    val consumer = new KafkaConsumer[String, Int](props_con)
     consumer.subscribe(Collections.singletonList(topic))
     //consumer.seekToBeginning(consumer.assignment())
 
@@ -55,12 +55,11 @@ object ConsumerDrone extends App {
         println("Iteration " + time)
         println()
         handler(time-timeout, timeout)
-      } else {
-        print("End Time (consumer): " + System.currentTimeMillis())
-        consumer.close()
       }
     }
 
-    handler(20000, 1000);
+    handler(total_milliseconds+(milliseconds_per_task*1.5).toInt, (milliseconds_per_task*1.2).toInt);
+    print("End Time (consumer): " + System.currentTimeMillis())
+    consumer.close()
   }
 }

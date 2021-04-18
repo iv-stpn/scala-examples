@@ -23,7 +23,7 @@ import java.time.temporal.ChronoUnit
 
 
 object ConsumerToCSV extends App {
-  def run(): Unit = {
+  def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = {
 
     val topic = "testtopicfile"
     val fileName = "testdd.csv"
@@ -47,7 +47,7 @@ object ConsumerToCSV extends App {
       if (time > 0) {
         val records = consumer.poll(timeout).asScala
         records.foreach(record => {
-          if (io.Source.fromFile(fileName).getLines.size == 0) {
+          if (scala.io.Source.fromFile(fileName).getLines.size == 0) {
             writer.write(columnNames.mkString(","))
           }
           writer.newLine()
@@ -68,7 +68,7 @@ object ConsumerToCSV extends App {
       }
     }
 
-    handler(20000, 1000);
+    handler(total_milliseconds+(milliseconds_per_task*1.5).toInt, (milliseconds_per_task*1.2).toInt);
     writer.close()
 
     print("End Time (consumer): " + System.currentTimeMillis())

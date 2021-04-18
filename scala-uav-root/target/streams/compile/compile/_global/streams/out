@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings[0m
-[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings (since 2.13.0)[0m
-[0m[[0m[33mwarn[0m] [0m[0mthere were four deprecation warnings in total; re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m
-=======
-[0m[[0m[31merror[0m] [0m[0m/home/omar/Bureau/scala-examples/scala-uav-root/src/main/scala/Main.scala:76:81: ')' expected but string literal found.[0m
-[0m[[0m[31merror[0m] [0m[0m		val r3 = spark.sql("SELECT * FROM csv.`" + pathToCSV + "`" + " WHERE words = "peur"")[0m
-[0m[[0m[31merror[0m] [0m[0m		                                                                              ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\ivani\DRONE PRJ\scala-examples\scala-uav-root\src\main\scala\Main.scala:43:77: ';' expected but ')' found.[0m
+[0m[[0m[31merror[0m] [0m[0m    println(n_tasks*milliseconds_per_task+(milliseconds_per_task*2.5).toInt))[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                            ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m
->>>>>>> 7c5108f6dff6449c57ed2eb8d96db89a2bb1219d
