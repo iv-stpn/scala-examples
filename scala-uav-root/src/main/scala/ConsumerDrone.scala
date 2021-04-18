@@ -5,11 +5,19 @@ import java.util.Collections
 import java.time.Duration
 import scala.collection.JavaConverters.iterableAsScalaIterableConverter
 
+import java.util.UUID.randomUUID
+import java.util.concurrent.TimeUnit
+import scala.util.Random
+import java.util.{Properties, Timer, TimerTask, concurrent}
+
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 
 
-object ConsumerDrone extends App{
-  def test(): Unit = {
+object ConsumerDrone extends App {
+  def run(): Unit = { 
 
     val topic = "testtopic"
 
@@ -23,25 +31,36 @@ object ConsumerDrone extends App{
 
 
     val consumer= new KafkaConsumer[String, Int](props_con)
-    consumer.subscribe(Collections.singletonList("testtopic"))
-    consumer.seekToBeginning(consumer.assignment())
+    consumer.subscribe(Collections.singletonList(topic))
+    //consumer.seekToBeginning(consumer.assignment())
 
-    val time = System.currentTimeMillis()
+    def handler(time: Int, timeout: Int): Unit = {
+      if (time > 0) {
+        val records = consumer.poll(timeout).asScala
 
-    while(System.currentTimeMillis() - time < 15000){
-      val records = consumer.poll(1000).asScala
-
-      records.foreach(record => {
-        if(record.value()>50){ println("Problem" + record.key() + " " + record.value())}
-        else{println("No problem")}
-      })
-
-
+        records.foreach(record => {
+          if(record.value() > 50) {
+            println()
+            println("Problem" + record.key() + " " + record.value())
+            println()
+          }
+          else {
+            println()
+            println("No problem")
+            println()
+          }
+        })
+        concurrent.TimeUnit.MILLISECONDS.sleep(timeout)
+        println()
+        println("Iteration " + time)
+        println()
+        handler(time-timeout, timeout)
+      } else {
+        print("End Time (consumer): " + System.currentTimeMillis())
+        consumer.close()
+      }
     }
-    print("Time " + time)
+
+    handler(20000, 1000);
   }
-
-
-
-
 }

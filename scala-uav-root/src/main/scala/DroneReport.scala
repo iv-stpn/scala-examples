@@ -12,7 +12,7 @@ object DroneReport {
   case class Identity(
                        firstname: String,
                        lastname: String,
-                       adress: String,
+                       address: String,
                        peacescore: Int
                      )
 

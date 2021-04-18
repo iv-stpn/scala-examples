@@ -12,11 +12,23 @@ import com.github.tototoshi.csv._
 
 import java.io.{BufferedWriter, File, FileWriter}
 
+import java.util.UUID.randomUUID
+import java.util.concurrent.TimeUnit
+import scala.util.Random
+import java.util.{Properties, Timer, TimerTask, concurrent}
+
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+
 
 object ConsumerToCSV extends App {
-  def test(): Unit = {
+  def run(): Unit = {
 
     val topic = "testtopicfile"
+    val fileName = "testdd.csv"
+    val timeout = 20
+    val columnNames = List("id", "drone_time", "lat_location", "long_location", "words", "surround", "peacescore")
 
     val props_con = new Properties()
 
@@ -26,53 +38,41 @@ object ConsumerToCSV extends App {
     props_con.put("auto.offset.reset", "earliest")
     props_con.put("group.id", "MessagesListDrone")
 
-
     val consumer = new KafkaConsumer[String, Int](props_con)
-    consumer.subscribe(Collections.singletonList("testtopicfile"))
-    consumer.seekToBeginning(consumer.assignment())
+    consumer.subscribe(Collections.singletonList(topic))
+    //consumer.seekToBeginning(consumer.assignment())
+    val writer = new BufferedWriter(new FileWriter(fileName, true))
 
-    val time = System.currentTimeMillis()
+    def handler(time: Int, timeout: Int): Unit = {
+      if (time > 0) {
+        val records = consumer.poll(timeout).asScala
+        records.foreach(record => {
+          if (io.Source.fromFile(fileName).getLines.size == 0) {
+            writer.write(columnNames.mkString(","))
+          }
+          writer.newLine()
+          
+          implicit val formats = DefaultFormats
+          val jvalue = parse(record.key())
+          
+          val rec = jvalue.extract[DroneReport.Drone]
 
-    print("VERIF_0")
-
-    val records = consumer.poll(10000).asScala
-    print("VERIF_1")
-    print(records)
-    records.foreach(record => {
-      println("VERIF_2")
-      println(record)
-      val writer = new BufferedWriter(new FileWriter("testdd.csv", true))
-      if (io.Source.fromFile("testdd.csv").getLines.size == 0) {
-        writer.write("id, drone_time, lat_location, long_location, words, surround")
+          val formReport = rec.id + "," + rec.drone_time + "," + rec.lat_location + "," + rec.long_location + "," + rec.words.mkString(";") + "," + rec.surround.lastname + "," + rec.surround.firstname + "," + rec.surround.address + "," + rec.surround.peacescore //rec.surround.map(x => x.lastname + "," + x.firstname + "," + x.address + "," + x.peacescore)
+          writer.write(formReport)
+        })
+        concurrent.TimeUnit.MILLISECONDS.sleep(timeout)
+        println()
+        println("Iteration " + time)
+        println()
+        handler(time-timeout, timeout)
       }
-      writer.newLine()
-      implicit val formats = DefaultFormats
-      val jvalue = parse(record.key())
-      println(jvalue)
-      val rec = jvalue.extract[DroneReport.Drone]
-      val fd = rec.surround.lastname + "-" + rec.surround.firstname + "-" + rec.surround.adress + "-" + rec.surround.peacescore
-      val reted = rec.words.mkString(";")
+    }
 
-      val formreport = rec.id + "," + rec.drone_time + "," + rec.lat_location + "," + rec.long_location + "," + reted + "," + rec.surround.lastname + "," + rec.surround.firstname + "," + rec.surround.adress + "," + rec.surround.peacescore //rec.surround.map(x => x.lastname + "," + x.firstname + "," + x.adress + "," + x.peacescore)
-      writer.write(formreport)
+    handler(20000, 1000);
+    writer.close()
 
-
-      writer.close()
-    })
-    print("VERIF_3")
-    /*for(record <- records.iterator){
-      if(record.value() > 50){
-
-        println("Problem " + record.key() + record.value())
-      }
-      else {
-        println("Ok " + record.value())
-      }
-    }*/
-
-    print("Time " + time)
+    print("End Time (consumer): " + System.currentTimeMillis())
+    consumer.close()
   }
-
-
 }
 

@@ -21,7 +21,7 @@ object ProducerDrone extends App {
     from.plus(random.nextInt(diff.toInt), ChronoUnit.DAYS).plus(random.nextInt(86000), ChronoUnit.SECONDS).toString
   }
 
-  def test(): Unit = {
+  def run(): Unit = {
     val topic = "testtopic"
     val topic_file = "testtopicfile"
     val from = LocalDateTime.of(2067, 10, 1, 0, 0, 1)
@@ -36,53 +36,61 @@ object ProducerDrone extends App {
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     props.put("value.serializer", "org.apache.kafka.common.serialization.IntegerSerializer")
 
-    val time = System.currentTimeMillis()
     val producer = new KafkaProducer[String, Int](props)
     val timer = new Timer()
     val task = new TimerTask {
 
       override def run(): Unit = {
+        val randomizer = scala.util.Random
+
         val random_name = List("Xinrui", "Haoyuan", "Yue", "Sujin", "Khodor", "Chaoshi", "Lihe", "Xinyu", "Qixian", "Songyan", "Cao","Paul", "Omar", "Adrien", "Ivan", "Louis", "Julien", "Marion", "Claire", "Charles", "Julie","Alexandre", "Diane", "Capucine", "Victor", "Antoine")
         val random_lastname = List("Boulanger", "Charpentier", "Dorffer", "Stepanian", "Allouache", "Hammoud", "Petit", "Broussole", "Martin", "Bernard", "Robert", "Richard","Wang", "Li", "Zhang'", "Liu", "Chen", "Yang", "Zhao", "Huang", "Wu", "Zhou", "Yuan")
-        val random_adress = List("Arbres", "Poissons", "Champs", "Martyrs", "Hongrois", "Concombres", "Italiens", "Espagnols", "Français", "Marcassins")
-        val random_gene = scala.util.Random
+        val random_address = List("Arbres", "Poissons", "Champs", "Martyrs", "Hongrois", "Concombres", "Italiens", "Espagnols", "Français", "Marcassins")
 
-        val name = Identity(random_name(random_gene.nextInt(random_name.length)),
-          random_lastname(random_gene.nextInt(random_lastname.length)),
-          random_gene.nextInt(200).toString() + " Rue des " + random_adress(random_gene.nextInt(random_adress.length)),
-          random_gene.nextInt(100))
+        val name = Identity(random_name(randomizer.nextInt(random_name.length)),
+          random_lastname(randomizer.nextInt(random_lastname.length)),
+          randomizer.nextInt(200).toString() + " Rue des " + random_address(randomizer.nextInt(random_address.length)),
+          randomizer.nextInt(100))
 
-        val words = List("Bonjour", "Comment", "Bien", "Attentat", "Paris", "Vive notre grande patrie", "La voix du peuple sera entendue", "A l'aide !", "La nouvelle révolution",
-          "J'ai peur", "Attention !", "Pourquoi ?", "Je t'aime", "Soyons unis", "Ensemble", "Seul",
-          "Les damnés de la terre", "La domination des élites", "La grande invasion de l'Est",
-          "Les Etats-Unis ont corrompu notre nation", "Ou est notre sauveteur américain ?",
-          "Les peacewatchers arrive", "Gloire au nouvel ordre mondial")
+        val words = List("Bonjour", "Comment", "Bien", "Aidez-nous!", "Paris", "Vive notre grande patrie", "La voix du peuple sera entendue", "A l'aide !", "La nouvelle révolution",
+          "J'ai peur", "Attention!", "Pourquoi?", "Je t'aime", "Soyons unis", "Ensemble", "Seul", "Dieu est grand", "N'oubliez pas les mots anciens",
+          "Les damnés de la terre", "La fin des élites", "Résistons à la Grande Invasion!", "A mort les infidèles!",
+          "Ils ont corrompu notre nation", "Ou est notre sauveteur de l'Ouest?",
+          "Les peacewatchers arrivent", "Gloire au nouvel ordre mondial")
 
-        val listwords = (((words(random_gene.nextInt(words.length)).split(" ") ++ words(random_gene.nextInt(words.length)).split(" ")) ++ words(random_gene.nextInt(words.length)).split(" ")) ++ words(random_gene.nextInt(words.length)).split(" ")).toList
+        def list_words(n_sentences : Int, word_list : List[String] = List()) : List[String] = {
+          (n_sentences, word_list) match {
+            case (n_sentences, word_list) if n_sentences > 0 =>
+             list_words(n_sentences-1,word_list ++ words(randomizer.nextInt(words.length)).split(" "))
+            case (1, word_list) => word_list ++ words(randomizer.nextInt(words.length)).split(" ")
+            case _ => word_list
+          }
+        }
 
-        val report = Drone(randomUUID().toString(), random_date(from, to), 47 + random_gene.nextFloat(), 2 + random_gene.nextFloat() , listwords,name)
+        val report = Drone(randomUUID().toString(), random_date(from, to), 47 + randomizer.nextFloat(),
+                            2 + randomizer.nextFloat(), list_words(3 + randomizer.nextInt(10)), name)
+
         println("Report ", report)
+        println()
+
         implicit val formats = DefaultFormats
         val jsonString = write(report)
-        println("JSONSTRING")
-        println(jsonString)
+
+        //println("JSONSTRING")
+        //println(jsonString)
+        
         producer.send(new ProducerRecord(topic, jsonString, name.peacescore))
         producer.send(new ProducerRecord(topic_file, jsonString, name.peacescore))
+
       }
     }
 
     timer.schedule(task, 1000L, 1000L)
-    concurrent.TimeUnit.SECONDS.sleep(10)
+    concurrent.TimeUnit.SECONDS.sleep(15)
     timer.cancel()
     timer.purge()
-    print("Time producer " + time)
-    //val record = new ProducerRecord(topic, iden, score)
-    //producer.send(record)
+    print("End Time (producer): " + System.currentTimeMillis())
     producer.close()
   }
-
-
-
-
 }
 
