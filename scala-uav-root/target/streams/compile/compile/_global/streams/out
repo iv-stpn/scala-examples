@@ -1,4 +1,2 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\ivani\DRONE PRJ\scala-examples\scala-uav-root\src\main\scala\Main.scala:43:77: ';' expected but ')' found.[0m
-[0m[[0m[31merror[0m] [0m[0m    println(n_tasks*milliseconds_per_task+(milliseconds_per_task*2.5).toInt))[0m
-[0m[[0m[31merror[0m] [0m[0m                                                                            ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning; re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

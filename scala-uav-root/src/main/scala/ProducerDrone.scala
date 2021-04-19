@@ -53,9 +53,9 @@ object ProducerDrone extends App {
           randomizer.nextInt(100))
 
         val words = List("Bonjour", "Comment", "Bien", "Aidez-nous!", "Paris", "Vive notre grande patrie", "La voix du peuple sera entendue", "A l'aide !", "La nouvelle révolution",
-          "J'ai peur", "Attention!", "Pourquoi?", "Je t'aime", "Soyons unis", "Ensemble", "Seul", "Dieu est grand", "N'oubliez pas les mots anciens",
+          "J'ai peur", "Attention!", "Pourquoi?", "Je t'aime", "Soyons unis", "Ensemble", "Seul", "Dieu est grand", "N'oubliez pas les mots des anciens",
           "Les damnés de la terre", "La fin des élites", "Résistons à la Grande Invasion!", "A mort les infidèles!",
-          "Ils ont corrompu notre nation", "Ou est notre sauveteur de l'Ouest?",
+          "Ils ont corrompu notre nation", "Ou est notre sauveteur américain?",
           "Les peacewatchers arrivent", "Gloire au nouvel ordre mondial")
 
         def list_words(n_sentences : Int, word_list : List[String] = List()) : List[String] = {

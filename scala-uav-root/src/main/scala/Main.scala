@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 object Main {
 	def main(args: Array[String]): Unit = {
-    val n_tasks = 30
+    val n_tasks = 5
     val milliseconds_per_task = 1000
 
     val producerThread = new Thread {
@@ -45,29 +45,11 @@ object Main {
     println()
     println()
 
-    TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*2.5).toInt)
+    TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*10).toInt)
 
-		val pathToCSV = "testdd.csv"
-
-		val sparkConfig = new SparkConf()
-			.setMaster("local")
-			.setAppName("SPARK SQL app conf")
-
-		val spark = SparkSession
-			.builder()
-			.appName("SPARK SQL app sess")
-			.config(sparkConfig)
-			.getOrCreate
-
-		val df = spark.read
-			.option("header", "true")
-			.option("inferSchema", "true")
-			.csv(pathToCSV)
-
-		val r1 = spark.sql("SELECT * FROM csv.`" + pathToCSV + "`")
-		val r2 = spark.sql("SELECT * FROM csv.`" + pathToCSV + "` WHERE surround = Broussole")
-		val r3 = spark.sql("SELECT * FROM csv.`" + pathToCSV + "` WHERE words = peur")
-		val r4 = spark.sql("SELECT * FROM csv.`" + pathToCSV + "` WHERE words = aime")
-		print(r1, "\n", r2, "\n", r3, "\n", r4, "\n")
+		Spark.firstLook()
+    Spark.peacescoreCount()
+    Spark.averagePeacesocre()
+    Spark.crimesInParis()
 	}
 }

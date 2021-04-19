@@ -26,9 +26,9 @@ object ConsumerToCSV extends App {
   def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = {
 
     val topic = "testtopicfile"
-    val fileName = "testdd.csv"
+    val fileName = "DB.csv"
     val timeout = 20
-    val columnNames = List("id", "drone_time", "lat_location", "long_location", "words", "surround", "peacescore")
+    val columnNames = List("id", "drone_time", "lat_location", "long_location", "words", "lastname", "firstname", "address", "peacescore")
 
     val props_con = new Properties()
 
@@ -41,15 +41,17 @@ object ConsumerToCSV extends App {
     val consumer = new KafkaConsumer[String, Int](props_con)
     consumer.subscribe(Collections.singletonList(topic))
     //consumer.seekToBeginning(consumer.assignment())
+    val n_lines = scala.io.Source.fromFile(fileName).getLines.size
+
     val writer = new BufferedWriter(new FileWriter(fileName, true))
+    if (n_lines == 0) {
+      writer.write(columnNames.mkString(","))
+    }
 
     def handler(time: Int, timeout: Int): Unit = {
       if (time > 0) {
         val records = consumer.poll(timeout).asScala
         records.foreach(record => {
-          if (scala.io.Source.fromFile(fileName).getLines.size == 0) {
-            writer.write(columnNames.mkString(","))
-          }
           writer.newLine()
           
           implicit val formats = DefaultFormats
