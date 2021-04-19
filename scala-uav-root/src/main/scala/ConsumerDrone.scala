@@ -14,13 +14,15 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
 
 object ConsumerDrone extends App {
   def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = { 
+    Logger.getLogger("org").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)
 
     val topic = "testtopic"
-
     val props_con = new Properties()
 
     props_con.put("bootstrap.servers", "localhost:9092")

@@ -21,10 +21,14 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
 
 object ConsumerToCSV extends App {
   def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = {
-
+    Logger.getLogger("org").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)
+    
     val topic = "testtopicfile"
     val fileName = "DB.csv"
     val timeout = 20

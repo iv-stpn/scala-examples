@@ -14,6 +14,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
+
 object ProducerDrone extends App {
   def random_date(from: LocalDateTime, to: LocalDateTime): String = {
     val diff = ChronoUnit.DAYS.between(from, to)
@@ -22,6 +25,9 @@ object ProducerDrone extends App {
   }
 
   def run(n_tasks : Int, milliseconds_per_task : Int): Unit = {
+    Logger.getLogger("org").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)
+    
     val topic = "testtopic"
     val topic_file = "testtopicfile"
     val from = LocalDateTime.of(2067, 10, 1, 0, 0, 1)
@@ -67,8 +73,8 @@ object ProducerDrone extends App {
           }
         }
 
-        val report = Drone(randomUUID().toString(), random_date(from, to), 47 + randomizer.nextFloat(),
-                            2 + randomizer.nextFloat(), list_words(3 + randomizer.nextInt(10)), name)
+        val report = Drone(randomUUID().toString(), random_date(from, to), 43 + randomizer.nextFloat()*7,
+                            (-3 + 6*randomizer.nextFloat())%180, list_words(3 + randomizer.nextInt(10)), name)
 
         println("Report ", report)
         println()
@@ -86,7 +92,7 @@ object ProducerDrone extends App {
     }
 
     timer.schedule(task, milliseconds_per_task, milliseconds_per_task)
-    concurrent.TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task)
+    concurrent.TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*2.5).toInt)
     timer.cancel()
     timer.purge()
     print("End Time (producer): " + System.currentTimeMillis())

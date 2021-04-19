@@ -9,10 +9,16 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.SparkConf
 import org.apache.spark
 
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
+
 import java.util.concurrent.TimeUnit
 
 object Main {
 	def main(args: Array[String]): Unit = {
+    Logger.getLogger("org").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)
+
     val n_tasks = 5
     val milliseconds_per_task = 1000
 
@@ -47,9 +53,9 @@ object Main {
 
     TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*10).toInt)
 
-		Spark.firstLook()
-    Spark.peacescoreCount()
-    Spark.averagePeacesocre()
-    Spark.crimesInParis()
+		//Spark.firstLook()
+    //Spark.nightCrime()
+    Spark.averagePeacescorePerTimePeriod()
+    //Spark.crimesInParis()
 	}
 }
