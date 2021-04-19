@@ -25,8 +25,9 @@ object ProducerDrone extends App {
   }
 
   def run(n_tasks : Int, milliseconds_per_task : Int): Unit = {
+    /*Logger.getRootLogger().setLevel(Level.OFF)
     Logger.getLogger("org").setLevel(Level.OFF)
-    Logger.getLogger("akka").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)*/
     
     val topic = "testtopic"
     val topic_file = "testtopicfile"

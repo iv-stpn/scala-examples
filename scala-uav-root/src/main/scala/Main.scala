@@ -16,8 +16,9 @@ import java.util.concurrent.TimeUnit
 
 object Main {
 	def main(args: Array[String]): Unit = {
+    /*Logger.getRootLogger().setLevel(Level.OFF)
     Logger.getLogger("org").setLevel(Level.OFF)
-    Logger.getLogger("akka").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)*/
 
     val n_tasks = 5
     val milliseconds_per_task = 1000
@@ -53,9 +54,10 @@ object Main {
 
     TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*10).toInt)
 
-		//Spark.firstLook()
-    //Spark.nightCrime()
+		Spark.firstLook()
+    Spark.nightCrime()
     Spark.averagePeacescorePerTimePeriod()
-    //Spark.crimesInParis()
+    Spark.riotCountPerTimePeriod()
+    Spark.crimesInParis()
 	}
 }

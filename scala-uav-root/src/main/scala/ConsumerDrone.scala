@@ -19,8 +19,9 @@ import org.apache.log4j.Level
 
 object ConsumerDrone extends App {
   def run(total_milliseconds : Int, milliseconds_per_task : Int): Unit = { 
+    /*Logger.getRootLogger().setLevel(Level.OFF)
     Logger.getLogger("org").setLevel(Level.OFF)
-    Logger.getLogger("akka").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)*/
 
     val topic = "testtopic"
     val props_con = new Properties()
