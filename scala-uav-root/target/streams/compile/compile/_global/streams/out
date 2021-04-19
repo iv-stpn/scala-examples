@@ -1,2 +1,8 @@
-[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings; re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[31merror[0m] [0m[0m/home/omar/Bureau/scala-examples/scala-uav-root/src/main/scala/Spark.scala:98:12: overloaded method value write with alternatives:[0m
+[0m[[0m[31merror[0m] [0m[0m  (x$1: Int)Unit <and>[0m
+[0m[[0m[31merror[0m] [0m[0m  (x$1: String)Unit <and>[0m
+[0m[[0m[31merror[0m] [0m[0m  (x$1: Array[Char])Unit[0m
+[0m[[0m[31merror[0m] [0m[0m cannot be applied to (Double)[0m
+[0m[[0m[31merror[0m] [0m[0m    writer.write(average)[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m

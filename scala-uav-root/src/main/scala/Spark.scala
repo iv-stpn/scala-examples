@@ -20,14 +20,14 @@ object Spark {
     // It represents the connexion to Spark and it is the place where you can configure the common properties
     // like the app name, the master url, memories allocation...
     val conf = new SparkConf()
-      .setAppName("Wordcount")
+      .setAppName("SPARK APPLICATION")
       .setMaster("local[*]") // here local mode. And * means you will use as much as you have cores.
 
     val ss = SparkSession.builder()
       .config(conf)
       .getOrCreate()
 
-    ss.sparkContext.setLogLevel("ERROR")
+    ss.sparkContext.setLogLevel("OFF")
     ss.read.options(Map("header" -> "true", "inferSchema" -> "true", "delimiter" -> ",")).csv(file)
   }
 
@@ -84,10 +84,7 @@ object Spark {
   }
 
   def riotCountPerTimePeriod(): Unit = {
-    val averageDf = df.
-    
-    
-    select(col("peacescore"), hour(col("drone_time")).alias("hour"), date_format(to_date(col("drone_time"),"yyyyMMdd"), "E").alias("dayOfWeek"),
+    val averageDf = df.select(col("peacescore"), hour(col("drone_time")).alias("hour"), date_format(to_date(col("drone_time"),"yyyyMMdd"), "E").alias("dayOfWeek"),
                                             month(col("drone_time")).alias("month"), quarter(col("drone_time")).alias("quarter"))
     val average = df.select(mean(df("peacescore"))).first().getDouble(0)
     println()

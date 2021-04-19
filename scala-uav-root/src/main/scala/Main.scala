@@ -53,9 +53,10 @@ object Main {
 
     TimeUnit.MILLISECONDS.sleep(n_tasks*milliseconds_per_task+(milliseconds_per_task*10).toInt)
 
-		//Spark.firstLook()
-    //Spark.nightCrime()
+		Spark.firstLook()
+    Spark.nightCrime()
     Spark.averagePeacescorePerTimePeriod()
-    //Spark.crimesInParis()
+    Spark.crimesInParis()
+    Spark.riotCountPerTimePeriod()
 	}
 }
